@@ -28,14 +28,14 @@ A proposta considera requisitos de **escalabilidade**, **alta disponibilidade** 
 ## 🧱 Arquitetura da Solução
 A arquitetura foi projetada para suportar um ambiente de e-commerce escalável, com dados distribuídos e alta disponibilidade.
 
-![Arquitetura da Solução](images/arquitetura_solucao.png)
+![Arquitetura da Solução](Images/arquitetura_solucao.png)
 
 ---
 
 ## 🗂️ Modelo de Dados (NoSQL)
 O modelo lógico foi definido considerando os principais padrões de acesso do sistema, priorizando desempenho e simplicidade operacional.
 
-![Modelo Lógico NoSQL](images/diagrama_modelagem.jpg)
+![Modelo Lógico NoSQL](Images/diagrama_modelagem.jpg)
 
 Principais coleções:
 - Clientes
@@ -52,15 +52,15 @@ A solução utiliza **Replica Sets** para garantir:
 - Tolerância a falhas
 - Continuidade das operações
 
-![Replicação](images/replicacao_postgres_aws.jpg)
-![Replicação](images/replicacao_atlas,jpg)
+![Replicação](Images/replicacao_postgres_aws.jpg)
+![Replicação](Images/replicacao_atlas,jpg)
 
 ---
 
 ## 🧩 Particionamento (Sharding)
 O particionamento dos dados permite escalabilidade horizontal, distribuindo o volume de dados entre múltiplos nós.
 
-![Particionamento](images/particionamento_mongo_docker.jpg)
+![Particionamento](Images/particionamento_mongo_docker.jpg)
 
 ---
 
