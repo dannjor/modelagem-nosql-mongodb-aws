@@ -1,66 +1,41 @@
-# 3. Coleções e Estruturas de Dados
+# 4. Replicação e Particionamento
 
-## Visão Geral
-A modelagem proposta organiza os dados do sistema de e-commerce em coleções que refletem as principais entidades do negócio. Cada coleção foi definida considerando volume de dados, frequência de acesso e padrões de consulta.
+## Replicação de Dados
+A replicação no MongoDB é implementada por meio de **Replica Sets**, que consistem em um conjunto de nós responsáveis por manter cópias sincronizadas dos dados.
 
-A estrutura busca equilibrar flexibilidade, desempenho e simplicidade operacional.
+Nesse modelo:
+- Um nó atua como **Primary**, responsável por operações de escrita
+- Os demais nós atuam como **Secondary**, replicando os dados de forma assíncrona
+- Em caso de falha do nó primário, ocorre a eleição automática de um novo Primary
 
-## Coleção: Clientes
-Armazena as informações principais dos clientes da plataforma.
+Benefícios da replicação:
+- Alta disponibilidade
+- Tolerância a falhas
+- Continuidade das operações em cenários de indisponibilidade
+- Possibilidade de direcionar leituras para nós secundários
 
-Principais atributos:
-- Identificador do cliente
-- Dados cadastrais
-- Informações de contato
-- Data de criação e status
+## Particionamento (Sharding)
+O particionamento de dados é utilizado para distribuir grandes volumes de dados entre múltiplos nós, permitindo escalabilidade horizontal.
 
-Os dados de clientes são referenciados em outras coleções, evitando duplicação excessiva e facilitando atualizações.
+No contexto deste projeto, o sharding é aplicado considerando:
+- Volume crescente de vendas
+- Alto número de consultas simultâneas
+- Necessidade de balanceamento de carga
 
-## Coleção: Produtos
-Responsável por armazenar os dados dos produtos disponíveis para venda.
+A escolha da **chave de shard** é um ponto crítico e deve:
+- Possuir alta cardinalidade
+- Distribuir dados de forma uniforme
+- Evitar hotspots de escrita
 
-Principais atributos:
-- Identificador do produto
-- Descrição e categoria
-- Preço
-- Informações de estoque
-- Status do produto
-
-Essa coleção é amplamente referenciada em vendas e carrinhos, sendo mantida de forma normalizada para garantir consistência.
-
-## Coleção: Vendas
-Representa as transações realizadas na plataforma.
-
-Estrutura adotada:
+Exemplos de chaves consideradas:
 - Identificador da venda
-- Referência ao cliente
-- Data da venda
-- Valor total
-- Lista de itens vendidos (embedding)
+- Identificador do cliente combinado com data
 
-Cada documento de venda contém os itens adquiridos, com informações como produto, quantidade e valor no momento da compra. Essa abordagem facilita consultas de histórico e análise de pedidos.
+## Benefícios da Abordagem Distribuída
+A combinação de replicação e particionamento permite:
+- Escalar leitura e escrita de forma eficiente
+- Manter alta disponibilidade
+- Suportar crescimento contínuo do volume de dados
+- Garantir desempenho mesmo sob alta carga
 
-## Coleção: Carrinho
-Armazena os itens adicionados ao carrinho de compras antes da finalização do pedido.
-
-Principais características:
-- Associação direta ao cliente
-- Lista de produtos em formato embedded
-- Atualização frequente
-
-Por se tratar de dados temporários e altamente voláteis, essa coleção foi pensada para operações rápidas de leitura e escrita.
-
-## Coleção: Histórico de Compras
-Utilizada para consultas analíticas e acompanhamento do comportamento do cliente ao longo do tempo.
-
-Pode ser implementada como:
-- Coleção dedicada para histórico
-- Ou visão derivada a partir da coleção de vendas
-
-Essa estrutura facilita análises como recorrência, ticket médio e perfil de consumo.
-
-## Considerações Gerais
-- Dados frequentemente acessados em conjunto foram modelados com embedding
-- Entidades compartilhadas foram referenciadas
-- A estrutura permite evolução sem necessidade de migrações complexas
-- O modelo está preparado para crescimento de volume e diversidade de dados
+Essa arquitetura prepara o sistema para cenários reais de produção, alinhando-se às boas práticas de bancos de dados distribuídos.
