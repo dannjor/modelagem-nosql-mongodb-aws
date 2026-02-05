@@ -53,7 +53,7 @@ A solução utiliza **Replica Sets** para garantir:
 - Continuidade das operações
 
 ![Replicação](Images/replicacao_postgres_aws.jpg)
-![Replicação](Images/replicacao_atlas,jpg)
+![Replicação](Images/replicacao_atlas.jpg)
 
 ---
 
